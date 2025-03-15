@@ -115,7 +115,12 @@ namespace _Assets.Scripts.Gameplay
                 {
                     if (_hits[i].transform.TryGetComponent(out InventoryItemPositionView inventoryItemPositionView))
                     {
-                        _currentItem = inventoryItemPositionView.Take(Input.mousePosition);
+                        if (_dragPlane.Raycast(ray, out var enter))
+                        {
+                            var hitPoint = ray.GetPoint(enter);
+                            _currentItem = inventoryItemPositionView.Take(hitPoint + _startDragOffset);
+                        }
+
                         return true;
                     }
                 }
