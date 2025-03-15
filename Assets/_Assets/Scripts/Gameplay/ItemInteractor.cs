@@ -13,7 +13,7 @@ namespace _Assets.Scripts.Gameplay
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (!TryTakeFromInventory())
                 {
@@ -21,12 +21,12 @@ namespace _Assets.Scripts.Gameplay
                 }
             }
 
-            if (Input.GetMouseButton(0) && _currentItem != null)
+            if (_currentItem != null)
             {
                 Drag();
             }
 
-            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 if (_currentItem != null)
                 {
@@ -34,6 +34,10 @@ namespace _Assets.Scripts.Gameplay
                     {
                         Drop();
                     }
+                }
+                else
+                {
+                    TryTakeFromInventory();
                 }
             }
         }
