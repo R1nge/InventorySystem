@@ -6,9 +6,9 @@ namespace _Assets.Scripts.Gameplay
     {
         [SerializeField] private new Camera camera;
         [SerializeField] private float zOffset = 10;
+        private readonly RaycastHit[] _hits = new RaycastHit[10];
         private ItemView _currentItem;
         private Plane _dragPlane;
-        private RaycastHit[] _hits = new RaycastHit[10];
         private Vector3 _startDragOffset;
 
         private void Update()
@@ -86,6 +86,7 @@ namespace _Assets.Scripts.Gameplay
                 if (hit.transform.TryGetComponent(out InventoryView inventoryView))
                 {
                     inventoryView.AddItem(itemView);
+                    _currentItem = null;
                     return true;
                 }
             }
@@ -104,7 +105,7 @@ namespace _Assets.Scripts.Gameplay
                 {
                     if (_hits[i].transform.TryGetComponent(out InventoryItemPositionView inventoryItemPositionView))
                     {
-                        inventoryItemPositionView.Take();
+                        _currentItem = inventoryItemPositionView.Take();
                         return true;
                     }
                 }
