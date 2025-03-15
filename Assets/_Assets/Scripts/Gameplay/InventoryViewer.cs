@@ -4,32 +4,44 @@ namespace _Assets.Scripts.Gameplay
 {
     public class InventoryViewer : MonoBehaviour
     {
-        [SerializeField] private InventoryView inventoryView;
+        [SerializeField] private new Camera camera;
         [SerializeField] private InventoryUIView inventoryUIView;
-
-        private void Awake()
-        {
-            inventoryView.OnItemAdded.AddListener(Refresh);
-            inventoryView.OnItemRemoved.AddListener(Refresh);
-        }
+        private InventoryView _lastInventory;
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetMouseButtonDown(0))
             {
-                inventoryUIView.Show(inventoryView.Inventory);
+                var ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out var hit))
+                {
+                    if (hit.transform.TryGetComponent(out InventoryView inventoryView))
+                    {
+                        _lastInventory = inventoryView;
+                        inventoryView.OnItemAdded.AddListener(Refresh);
+                        inventoryView.OnItemRemoved.AddListener(Refresh);
+                        inventoryUIView.Show(inventoryView.Inventory);
+                    }
+                }
             }
-        }
 
-        private void OnDestroy()
-        {
-            inventoryView.OnItemAdded.RemoveListener(Refresh);
-            inventoryView.OnItemRemoved.RemoveListener(Refresh);
+            if (Input.GetMouseButtonUp(0))
+            {
+                _lastInventory.OnItemAdded.RemoveListener(Refresh);
+                _lastInventory.OnItemRemoved.RemoveListener(Refresh);
+                inventoryUIView.Hide();
+            }
         }
 
         private void Refresh(ItemData arg0)
         {
-            inventoryUIView.Refresh(inventoryView.Inventory);
+            if (_lastInventory == null)
+            {
+                Debug.LogError("Trying to refresh inventory when it is null");
+                return;
+            }
+
+            inventoryUIView.Refresh(_lastInventory.Inventory);
         }
     }
 }

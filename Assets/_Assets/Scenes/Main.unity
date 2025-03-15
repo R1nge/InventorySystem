@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a1ea41503349bc93d9c4b1e3b9f1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryView: {fileID: 619328289}
+  camera: {fileID: 2068673862}
   inventoryUIView: {fileID: 1312521902}
 --- !u!4 &100797976
 Transform:
