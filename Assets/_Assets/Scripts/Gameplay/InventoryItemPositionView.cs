@@ -34,6 +34,7 @@ namespace _Assets.Scripts.Gameplay
                 _currentItem.DisableKinematic();
                 _currentItem.transform.SetParent(null);
                 StartCoroutine(LerpToPosition(item, lerpDuration, mousePosition));
+                inventoryView.RemoveItem(_currentItem);
                 _currentItem = null;
                 return item;
             }

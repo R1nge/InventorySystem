@@ -44,21 +44,8 @@ namespace _Assets.Scripts.Gameplay
         public void RemoveItem(ItemView itemView)
         {
             var data = itemView.Item.ItemData;
-            UnSnapItem(itemView);
             _inventory.RemoveItem(data);
             OnItemRemoved?.Invoke(data);
-        }
-
-        private void UnSnapItem(ItemView itemView)
-        {
-            var itemType = itemView.Item.ItemData.type;
-            var position = itemType switch
-            {
-                ItemType.Pickaxe => positions[0],
-                ItemType.Lamp => positions[1],
-                _ => throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null)
-            };
-            position.Take(itemView.transform.position);
         }
     }
 }
