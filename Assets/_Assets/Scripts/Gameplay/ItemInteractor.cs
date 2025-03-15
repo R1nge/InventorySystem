@@ -6,7 +6,7 @@ namespace _Assets.Scripts.Gameplay
     {
         [SerializeField] private new Camera camera;
         private ItemView _currentItem;
-        private Vector3 _itemStartPosition;
+        private Plane _dragPlane;
         private Vector3 _startDragOffset;
 
         private void Update()
@@ -19,15 +19,18 @@ namespace _Assets.Scripts.Gameplay
                     if (hit.transform.TryGetComponent(out ItemView itemView))
                     {
                         _currentItem = itemView;
-                        _itemStartPosition = itemView.transform.position;
-                        _startDragOffset = _itemStartPosition - ScreenToWorld(Input.mousePosition);
-                        _startDragOffset.z = 0;
+                        _dragPlane = new Plane(Vector3.forward, _currentItem.transform.position);
+                        Vector3 hitPoint = hit.point;
+                        _startDragOffset = _currentItem.transform.position - hitPoint;
                         itemView.DisableGravity();
                     }
                 }
             }
 
-            Drag();
+            if (Input.GetMouseButton(0) && _currentItem != null)
+            {
+                Drag();
+            }
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -43,21 +46,15 @@ namespace _Assets.Scripts.Gameplay
         {
             if (_currentItem != null)
             {
-                var mousePosition = Input.mousePosition;
-                mousePosition.z = camera.transform.position.z + _currentItem.transform.position.z;
-                var mouseWorldPosition = ScreenToWorld(mousePosition);
-                mouseWorldPosition.z = _currentItem.transform.position.z;
+                var ray = camera.ScreenPointToRay(Input.mousePosition);
+                if (_dragPlane.Raycast(ray, out var enter))
+                {
+                    Vector3 hitPoint = ray.GetPoint(enter);
+                    _currentItem.transform.position = hitPoint + _startDragOffset;
 
-                _currentItem.transform.position = mouseWorldPosition + _startDragOffset;
-
-                Debug.Log($"Current: {mousePosition}, World: {mouseWorldPosition}, Offset: {_startDragOffset}");
+                    Debug.Log($"Ray: {ray}, Hit Point: {hitPoint}, Offset: {_startDragOffset}");
+                }
             }
-        }
-
-        private Vector3 ScreenToWorld(Vector3 screenPosition)
-        {
-            screenPosition.z = camera.WorldToScreenPoint(_currentItem.transform.position).z;
-            return camera.ScreenToWorldPoint(screenPosition);
         }
     }
 }
