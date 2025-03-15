@@ -8,6 +8,7 @@ namespace _Assets.Scripts.Gameplay
         public ulong id;
         public string title;
         public int weight;
+        public ItemType type;
 
         public int CompareTo(object obj)
         {

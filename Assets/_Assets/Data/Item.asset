@@ -16,3 +16,4 @@ MonoBehaviour:
     id: 0
     title: Item
     weight: 100
+    type: 1
