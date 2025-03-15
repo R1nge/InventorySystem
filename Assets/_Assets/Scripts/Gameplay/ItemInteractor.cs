@@ -81,7 +81,7 @@ namespace _Assets.Scripts.Gameplay
             {
                 if (hit.transform.TryGetComponent(out InventoryView inventoryView))
                 {
-                    inventoryView.AddItem(itemView.Item.ItemData);
+                    inventoryView.AddItem(itemView);
                     return true;
                 }
             }

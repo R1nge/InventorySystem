@@ -11,14 +11,24 @@ namespace _Assets.Scripts.Gameplay
         public ItemScriptableObject Item => item;
 
 
+        public void EnableGravity()
+        {
+            rigidbody.useGravity = true;
+        }
+
         public void DisableGravity()
         {
             rigidbody.useGravity = false;
         }
 
-        public void EnableGravity()
+        public void EnableKinematic()
         {
-            rigidbody.useGravity = true;
+            rigidbody.isKinematic = true;
+        }
+
+        public void DisableKinematic()
+        {
+            rigidbody.isKinematic = false;
         }
     }
 }
