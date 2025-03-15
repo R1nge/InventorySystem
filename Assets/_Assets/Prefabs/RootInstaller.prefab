@@ -65,3 +65,4 @@ MonoBehaviour:
   uiConfig: {fileID: 11400000, guid: c01c0ec4a5855f641b051cf97763b193, type: 2}
   itemsData:
   - {fileID: 11400000, guid: 00c463c940765454ca0bb91449462364, type: 2}
+  - {fileID: 11400000, guid: 5a42d1e7442fef340aeae294acbf4406, type: 2}

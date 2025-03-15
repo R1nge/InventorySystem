@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using _Assets.Scripts.Services.Api;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,12 +33,13 @@ namespace _Assets.Scripts.Gameplay
         private void SnapItem(ItemView itemView)
         {
             var itemType = itemView.Item.ItemData.type;
-            var position = itemType switch
+            var position = positions.FirstOrDefault(view => view.ItemType == itemType);
+            if (position == null)
             {
-                ItemType.Pickaxe => positions[0],
-                ItemType.Lamp => positions[1],
-                _ => throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null)
-            };
+                Debug.LogError($"No position for item type {itemType}");
+                return;
+            }
+
             position.Put(itemView);
         }
 

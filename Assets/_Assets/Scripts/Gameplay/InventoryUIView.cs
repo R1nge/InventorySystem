@@ -23,9 +23,12 @@ namespace _Assets.Scripts.Gameplay
             var array = inventory.GetItems().ToArray();
             for (var i = 0; i < array.Length; i++)
             {
-                var item = array[i];
-                if (slots[i].ItemType != item.type) continue;
-                slots[i].SetIcon(_configProvider.GetItem(item.id).Icon);
+                for (int j = 0; j < slots.Length; j++)
+                {
+                    var item = array[i];
+                    if (slots[j].ItemType != item.type) continue;
+                    slots[j].SetIcon(_configProvider.GetItem(item.id).Icon);
+                }
             }
 
             ui.SetActive(true);
@@ -37,9 +40,12 @@ namespace _Assets.Scripts.Gameplay
             var array = inventory.GetItems().ToArray();
             for (var i = 0; i < array.Length; i++)
             {
-                var item = array[i];
-                if (slots[i].ItemType != item.type) continue;
-                slots[i].SetIcon(_configProvider.GetItem(item.id).Icon);
+                for (int j = 0; j < slots.Length; j++)
+                {
+                    var item = array[i];
+                    if (slots[j].ItemType != item.type) continue;
+                    slots[j].SetIcon(_configProvider.GetItem(item.id).Icon);
+                }
             }
         }
 

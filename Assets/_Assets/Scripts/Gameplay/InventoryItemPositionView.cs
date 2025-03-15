@@ -5,10 +5,12 @@ namespace _Assets.Scripts.Gameplay
 {
     public class InventoryItemPositionView : MonoBehaviour
     {
+        [SerializeField] private ItemType itemType;
         [SerializeField] private InventoryView inventoryView;
         [SerializeField] private float lerpDuration = 0.15f;
         [SerializeField] private Transform position;
         private ItemView _currentItem;
+        public ItemType ItemType => itemType;
 
         public void Put(ItemView itemView)
         {
