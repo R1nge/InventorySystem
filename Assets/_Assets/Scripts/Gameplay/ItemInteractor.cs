@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace _Assets.Scripts.Gameplay
 {
@@ -118,7 +119,10 @@ namespace _Assets.Scripts.Gameplay
                         if (_dragPlane.Raycast(ray, out var enter))
                         {
                             var hitPoint = ray.GetPoint(enter);
-                            _currentItem = inventoryItemPositionView.Take(hitPoint + _startDragOffset);
+                            // Can't come up with a better solution rn :)
+                            // If the current item set immediately the lerp animation position would be overridden by the drag
+                            StartCoroutine(WaitForAnimation(inventoryItemPositionView.Take(hitPoint + _startDragOffset),
+                                inventoryItemPositionView.LerpDuration));
                         }
 
                         return true;
@@ -127,6 +131,12 @@ namespace _Assets.Scripts.Gameplay
             }
 
             return false;
+        }
+
+        private IEnumerator WaitForAnimation(ItemView itemView, float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            _currentItem = itemView;
         }
     }
 }

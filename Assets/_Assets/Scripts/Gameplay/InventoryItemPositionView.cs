@@ -10,6 +10,7 @@ namespace _Assets.Scripts.Gameplay
         [SerializeField] private float lerpDuration = 0.15f;
         [SerializeField] private Transform position;
         private ItemView _currentItem;
+        public float LerpDuration => lerpDuration;
         public ItemType ItemType => itemType;
 
         public void Put(ItemView itemView)
