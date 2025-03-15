@@ -1,4 +1,5 @@
 ﻿using System;
+using _Assets.Scripts.Services.Api;
 using UnityEngine;
 using UnityEngine.Events;
 using VContainer;
@@ -10,12 +11,13 @@ namespace _Assets.Scripts.Gameplay
         [SerializeField] private ulong id;
         [SerializeField] private InventoryItemPositionView[] positions;
         public UnityEvent<ItemData> OnItemAdded, OnItemRemoved;
+        [Inject] private Api _api;
         private Inventory _inventory;
         [Inject] private InventorySaver _inventorySaver;
 
         private void Awake()
         {
-            _inventory = new Inventory(id, _inventorySaver);
+            _inventory = new Inventory(id, _inventorySaver, _api);
             _inventory.Load();
         }
 

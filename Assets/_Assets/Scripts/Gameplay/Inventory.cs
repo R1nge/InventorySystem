@@ -1,18 +1,22 @@
 ﻿using System.Collections.Generic;
+using _Assets.Scripts.Services.Api;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Assets.Scripts.Gameplay
 {
     public class Inventory
     {
+        private readonly Api _api;
         private readonly ulong _id;
         private readonly InventorySaver _inventorySaver;
         private readonly List<ItemData> _items;
 
-        public Inventory(ulong id, InventorySaver inventorySaver)
+        public Inventory(ulong id, InventorySaver inventorySaver, Api api)
         {
             _id = id;
             _inventorySaver = inventorySaver;
+            _api = api;
             _items = new List<ItemData>();
         }
 
@@ -36,6 +40,7 @@ namespace _Assets.Scripts.Gameplay
             Debug.Log($"Item added: {itemData.title}");
             _items.Add(itemData);
             _inventorySaver.Save(this, _id);
+            _api.SendInventory(_id, this).Forget();
         }
 
         public void RemoveItem(ItemData itemData)
@@ -43,6 +48,7 @@ namespace _Assets.Scripts.Gameplay
             Debug.Log($"Item removed: {itemData.title}");
             _items.Remove(itemData);
             _inventorySaver.Save(this, _id);
+            _api.SendInventory(_id, this).Forget();
         }
 
         public List<ItemData> GetItems() => _items;
