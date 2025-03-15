@@ -40,7 +40,7 @@ namespace _Assets.Scripts.Gameplay
             Debug.Log($"Item added: {itemData.title}");
             _items.Add(itemData);
             _inventorySaver.Save(this, _id);
-            _api.SendInventory(_id, this).Forget();
+            _api.SendInventory(_id, "add").Forget();
         }
 
         public void RemoveItem(ItemData itemData)
@@ -48,7 +48,7 @@ namespace _Assets.Scripts.Gameplay
             Debug.Log($"Item removed: {itemData.title}");
             _items.Remove(itemData);
             _inventorySaver.Save(this, _id);
-            _api.SendInventory(_id, this).Forget();
+            _api.SendInventory(_id, "remove").Forget();
         }
 
         public List<ItemData> GetItems() => _items;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using _Assets.Scripts.Gameplay;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Unity.VisualScripting;
@@ -51,19 +50,18 @@ namespace _Assets.Scripts.Services.Api
             return JsonConvert.DeserializeObject<TResponse>(responseJson);
         }
 
-        public async UniTask SendInventory(ulong id, Inventory inventory)
+        public async UniTask SendInventory(ulong id, string action)
         {
-            var saveData = new InventorySaveData
+            var request = new InventoryChangedRequest
             {
                 id = id,
-                items = inventory.GetItems()
+                action = action
             };
-
             var response =
-                await SendPostRequest<InventorySaveData, InventoryResponse>(
-                    "https://wadahub.manerai.com/api/inventory/status", saveData, null);
+                await SendPostRequest<InventoryChangedRequest, InventoryResponse>(
+                    "https://wadahub.manerai.com/api/inventory/status", request, null);
             Debug.Log(
-                $"Response: {response.response}; Status: {response.status}; Data Id: {response.data_submitted.id}; Data Items Count: {response.data_submitted.items.Count}");
+                $"Response: {response.response}; Status: {response.status}; Data Id: {response.data_submitted.id}; Id: {response.data_submitted.id}; Action: {response.data_submitted.action}");
         }
 
         [Serializable]
@@ -76,7 +74,14 @@ namespace _Assets.Scripts.Services.Api
         {
             public string response;
             public string status;
-            public InventorySaveData data_submitted;
+            public InventoryChangedRequest data_submitted;
+        }
+
+        [Serializable]
+        public class InventoryChangedRequest
+        {
+            public ulong id;
+            public string action;
         }
     }
 }
