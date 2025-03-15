@@ -11,6 +11,8 @@ namespace _Assets.Scripts.Gameplay
         public ItemScriptableObject Item => item;
 
 
+        public void ResetVelocity() => rigidbody.velocity = Vector3.zero;
+
         public void EnableGravity()
         {
             rigidbody.useGravity = true;

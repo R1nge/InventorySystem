@@ -65,6 +65,7 @@ namespace _Assets.Scripts.Gameplay
 
         private void Drop()
         {
+            _currentItem.ResetVelocity();
             _currentItem.EnableGravity();
             _currentItem = null;
         }

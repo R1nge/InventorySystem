@@ -30,6 +30,7 @@ namespace _Assets.Scripts.Gameplay
             if (_currentItem != null)
             {
                 var item = _currentItem;
+                _currentItem.ResetVelocity();
                 _currentItem.EnableGravity();
                 _currentItem.DisableKinematic();
                 _currentItem.transform.SetParent(null);
