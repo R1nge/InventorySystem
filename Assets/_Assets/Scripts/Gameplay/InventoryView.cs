@@ -41,7 +41,6 @@ namespace _Assets.Scripts.Gameplay
 
         public void RemoveItem(ItemData itemData)
         {
-            UnSnapItem(itemData.type);
             _inventory.RemoveItem(itemData);
             OnItemRemoved?.Invoke(itemData);
         }

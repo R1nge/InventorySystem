@@ -5,6 +5,7 @@ namespace _Assets.Scripts.Gameplay
 {
     public class InventoryItemPositionView : MonoBehaviour
     {
+        [SerializeField] private InventoryView inventoryView;
         [SerializeField] private float lerpDuration = 0.15f;
         [SerializeField] private Transform position;
         private ItemView _currentItem;
@@ -28,6 +29,7 @@ namespace _Assets.Scripts.Gameplay
         {
             if (_currentItem != null)
             {
+                inventoryView.RemoveItem(_currentItem.Item.ItemData);
                 var item = _currentItem;
                 _currentItem.EnableGravity();
                 _currentItem.DisableKinematic();

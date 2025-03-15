@@ -861,8 +861,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f052392dd04ac4929156eb5d80a31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryView: {fileID: 619328289}
+  lerpDuration: 0.15
   position: {fileID: 1815877482}
-  itemType: 1
 --- !u!65 &1815877484
 BoxCollider:
   m_ObjectHideFlags: 0
