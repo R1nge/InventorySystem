@@ -5,6 +5,7 @@ namespace _Assets.Scripts.Gameplay
     public class ItemInteractor : MonoBehaviour
     {
         [SerializeField] private new Camera camera;
+        [SerializeField] private float zOffset = 10;
         private ItemView _currentItem;
         private Plane _dragPlane;
         private Vector3 _startDragOffset;
@@ -19,7 +20,9 @@ namespace _Assets.Scripts.Gameplay
                     if (hit.transform.TryGetComponent(out ItemView itemView))
                     {
                         _currentItem = itemView;
-                        _dragPlane = new Plane(Vector3.forward, _currentItem.transform.position);
+                        var distanceBetweenCameraAndItem = new Vector3(_currentItem.transform.position.x,
+                            _currentItem.transform.position.y, _currentItem.transform.position.z - zOffset);
+                        _dragPlane = new Plane(Vector3.forward, distanceBetweenCameraAndItem);
                         Vector3 hitPoint = hit.point;
                         _startDragOffset = _currentItem.transform.position - hitPoint;
                         itemView.DisableGravity();
@@ -49,10 +52,8 @@ namespace _Assets.Scripts.Gameplay
                 var ray = camera.ScreenPointToRay(Input.mousePosition);
                 if (_dragPlane.Raycast(ray, out var enter))
                 {
-                    Vector3 hitPoint = ray.GetPoint(enter);
+                    var hitPoint = ray.GetPoint(enter);
                     _currentItem.transform.position = hitPoint + _startDragOffset;
-
-                    Debug.Log($"Ray: {ray}, Hit Point: {hitPoint}, Offset: {_startDragOffset}");
                 }
             }
         }
