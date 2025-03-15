@@ -208,6 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 619328288}
   - component: {fileID: 619328289}
+  - component: {fileID: 619328290}
   m_Layer: 0
   m_Name: Backpack
   m_TagString: Untagged
@@ -249,6 +250,27 @@ MonoBehaviour:
   OnItemRemoved:
     m_PersistentCalls:
       m_Calls: []
+--- !u!65 &619328290
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619328287}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.874052, y: 11.495368, z: 9.622443}
+  m_Center: {x: 0.2811656, y: 5.247685, z: -0.8073516}
 --- !u!1 &638731711
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 2068673862}
+  zOffset: 10
 --- !u!4 &1155407918
 Transform:
   m_ObjectHideFlags: 0

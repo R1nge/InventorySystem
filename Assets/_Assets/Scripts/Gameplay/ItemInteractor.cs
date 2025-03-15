@@ -14,20 +14,7 @@ namespace _Assets.Scripts.Gameplay
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var ray = camera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hit))
-                {
-                    if (hit.transform.TryGetComponent(out ItemView itemView))
-                    {
-                        _currentItem = itemView;
-                        var distanceBetweenCameraAndItem = new Vector3(_currentItem.transform.position.x,
-                            _currentItem.transform.position.y, _currentItem.transform.position.z - zOffset);
-                        _dragPlane = new Plane(Vector3.forward, distanceBetweenCameraAndItem);
-                        Vector3 hitPoint = hit.point;
-                        _startDragOffset = _currentItem.transform.position - hitPoint;
-                        itemView.DisableGravity();
-                    }
-                }
+                TryPickUpItem();
             }
 
             if (Input.GetMouseButton(0) && _currentItem != null)
@@ -39,10 +26,39 @@ namespace _Assets.Scripts.Gameplay
             {
                 if (_currentItem != null)
                 {
-                    _currentItem.EnableGravity();
-                    _currentItem = null;
+                    if (!TryAddToInventory(_currentItem))
+                    {
+                        Drop();
+                    }
                 }
             }
+        }
+
+        private bool TryPickUpItem()
+        {
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out var hit))
+            {
+                if (hit.transform.TryGetComponent(out ItemView itemView))
+                {
+                    _currentItem = itemView;
+                    var distanceBetweenCameraAndItem = new Vector3(_currentItem.transform.position.x,
+                        _currentItem.transform.position.y, _currentItem.transform.position.z - zOffset);
+                    _dragPlane = new Plane(Vector3.forward, distanceBetweenCameraAndItem);
+                    Vector3 hitPoint = hit.point;
+                    _startDragOffset = _currentItem.transform.position - hitPoint;
+                    itemView.DisableGravity();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void Drop()
+        {
+            _currentItem.EnableGravity();
+            _currentItem = null;
         }
 
         private void Drag()
@@ -56,6 +72,21 @@ namespace _Assets.Scripts.Gameplay
                     _currentItem.transform.position = hitPoint + _startDragOffset;
                 }
             }
+        }
+
+        private bool TryAddToInventory(ItemView itemView)
+        {
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out var hit))
+            {
+                if (hit.transform.TryGetComponent(out InventoryView inventoryView))
+                {
+                    inventoryView.AddItem(itemView.Item.ItemData);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
