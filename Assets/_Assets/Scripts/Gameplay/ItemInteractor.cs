@@ -43,7 +43,7 @@ namespace _Assets.Scripts.Gameplay
                 {
                     _currentItem = itemView;
                     var distanceBetweenCameraAndItem = new Vector3(_currentItem.transform.position.x,
-                        _currentItem.transform.position.y, _currentItem.transform.position.z - zOffset);
+                        _currentItem.transform.position.y, camera.transform.position.z + zOffset);
                     _dragPlane = new Plane(Vector3.forward, distanceBetweenCameraAndItem);
                     Vector3 hitPoint = hit.point;
                     _startDragOffset = _currentItem.transform.position - hitPoint;

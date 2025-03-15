@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 2068673862}
-  zOffset: 10
+  zOffset: 20
 --- !u!4 &1155407918
 Transform:
   m_ObjectHideFlags: 0
