@@ -81,13 +81,18 @@ namespace _Assets.Scripts.Gameplay
         private bool TryAddToInventory(ItemView itemView)
         {
             var ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit))
+            var hits = Physics.RaycastNonAlloc(ray, _hits, Mathf.Infinity);
+
+            if (hits > 0)
             {
-                if (hit.transform.TryGetComponent(out InventoryView inventoryView))
+                for (int i = 0; i < hits; i++)
                 {
-                    inventoryView.AddItem(itemView);
-                    _currentItem = null;
-                    return true;
+                    if (_hits[i].transform.TryGetComponent(out InventoryView inventoryView))
+                    {
+                        inventoryView.AddItem(itemView);
+                        _currentItem = null;
+                        return true;
+                    }
                 }
             }
 
