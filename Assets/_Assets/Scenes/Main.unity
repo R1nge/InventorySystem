@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8707567ca304f1c90968ccba6eeb7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   OnItemAdded:
     m_PersistentCalls:
       m_Calls: []
@@ -532,6 +533,7 @@ MonoBehaviour:
   autoInjectGameObjects:
   - {fileID: 188356526}
   - {fileID: 1527779659}
+  - {fileID: 619328287}
 --- !u!1 &1155407916
 GameObject:
   m_ObjectHideFlags: 0
