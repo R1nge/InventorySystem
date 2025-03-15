@@ -5,7 +5,6 @@ namespace _Assets.Scripts.Gameplay
     public class InventoryItemPositionView : MonoBehaviour
     {
         [SerializeField] private Transform position;
-        [SerializeField] private ItemType itemType;
         private ItemView _currentItem;
 
         public void Put(ItemView itemView)
@@ -25,6 +24,7 @@ namespace _Assets.Scripts.Gameplay
                 var item = _currentItem;
                 _currentItem.EnableGravity();
                 _currentItem.DisableKinematic();
+                _currentItem.transform.parent = null;
                 _currentItem = null;
                 return item;
             }

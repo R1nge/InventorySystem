@@ -8,13 +8,17 @@ namespace _Assets.Scripts.Gameplay
         [SerializeField] private float zOffset = 10;
         private ItemView _currentItem;
         private Plane _dragPlane;
+        private RaycastHit[] _hits = new RaycastHit[10];
         private Vector3 _startDragOffset;
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                TryPickUpItem();
+                if (!TryTakeFromInventory())
+                {
+                    TryPickUpItem();
+                }
             }
 
             if (Input.GetMouseButton(0) && _currentItem != null)
@@ -83,6 +87,26 @@ namespace _Assets.Scripts.Gameplay
                 {
                     inventoryView.AddItem(itemView);
                     return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryTakeFromInventory()
+        {
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            var hits = Physics.RaycastNonAlloc(ray, _hits, Mathf.Infinity);
+
+            if (hits > 0)
+            {
+                for (int i = 0; i < hits; i++)
+                {
+                    if (_hits[i].transform.TryGetComponent(out InventoryItemPositionView inventoryItemPositionView))
+                    {
+                        inventoryItemPositionView.Take();
+                        return true;
+                    }
                 }
             }
 
