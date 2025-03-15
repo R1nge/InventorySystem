@@ -13,7 +13,7 @@ namespace _Assets.Scripts.Gameplay
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
                 if (!TryTakeFromInventory())
                 {
@@ -26,7 +26,7 @@ namespace _Assets.Scripts.Gameplay
                 Drag();
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 if (_currentItem != null)
                 {
@@ -110,7 +110,7 @@ namespace _Assets.Scripts.Gameplay
                 {
                     if (_hits[i].transform.TryGetComponent(out InventoryItemPositionView inventoryItemPositionView))
                     {
-                        _currentItem = inventoryItemPositionView.Take();
+                        _currentItem = inventoryItemPositionView.Take(Input.mousePosition);
                         return true;
                     }
                 }

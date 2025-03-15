@@ -21,19 +21,19 @@ namespace _Assets.Scripts.Gameplay
             _currentItem = itemView;
             itemView.DisableGravity();
             itemView.EnableKinematic();
-            StartCoroutine(LerpToPosition(itemView, lerpDuration));
+            StartCoroutine(LerpToPosition(itemView, lerpDuration, position.position));
             itemView.transform.SetParent(position);
         }
 
-        public ItemView Take()
+        public ItemView Take(Vector3 mousePosition)
         {
             if (_currentItem != null)
             {
-                inventoryView.RemoveItem(_currentItem.Item.ItemData);
                 var item = _currentItem;
                 _currentItem.EnableGravity();
                 _currentItem.DisableKinematic();
                 _currentItem.transform.SetParent(null);
+                StartCoroutine(LerpToPosition(item, lerpDuration, mousePosition));
                 _currentItem = null;
                 return item;
             }
@@ -43,10 +43,9 @@ namespace _Assets.Scripts.Gameplay
             return null;
         }
 
-        private IEnumerator LerpToPosition(ItemView itemView, float duration)
+        private IEnumerator LerpToPosition(ItemView itemView, float duration, Vector3 endPosition)
         {
             var startPosition = itemView.transform.position;
-            var endPosition = position.position;
             var t = 0f;
             while (t < duration)
             {

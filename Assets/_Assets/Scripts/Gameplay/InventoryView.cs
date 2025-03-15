@@ -39,21 +39,24 @@ namespace _Assets.Scripts.Gameplay
             position.Put(itemView);
         }
 
-        public void RemoveItem(ItemData itemData)
+        public void RemoveItem(ItemView itemView)
         {
-            _inventory.RemoveItem(itemData);
-            OnItemRemoved?.Invoke(itemData);
+            var data = itemView.Item.ItemData;
+            UnSnapItem(itemView);
+            _inventory.RemoveItem(data);
+            OnItemRemoved?.Invoke(data);
         }
 
-        private void UnSnapItem(ItemType itemType)
+        private void UnSnapItem(ItemView itemView)
         {
+            var itemType = itemView.Item.ItemData.type;
             var position = itemType switch
             {
                 ItemType.Pickaxe => positions[0],
                 ItemType.Lamp => positions[1],
                 _ => throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null)
             };
-            position.Take();
+            position.Take(itemView.transform.position);
         }
     }
 }
