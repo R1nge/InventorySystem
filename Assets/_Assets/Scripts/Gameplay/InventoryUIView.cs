@@ -1,5 +1,4 @@
-﻿using System;
-using _Assets.Scripts.Configs;
+﻿using _Assets.Scripts.Configs;
 using UnityEngine;
 using VContainer;
 
@@ -9,7 +8,7 @@ namespace _Assets.Scripts.Gameplay
     {
         [SerializeField] private GameObject ui;
         [SerializeField] private Transform slotChild;
-        [SerializeField] private SlotView slotPrefab;
+        [SerializeField] private SlotView[] slots;
         [Inject] private ConfigProvider _configProvider;
 
         private void Awake()
@@ -21,10 +20,12 @@ namespace _Assets.Scripts.Gameplay
         public void Show(Inventory inventory)
         {
             Clear();
-            foreach (var item in inventory.GetItems().ToArray())
+            var array = inventory.GetItems().ToArray();
+            for (var i = 0; i < array.Length; i++)
             {
-                var slot = Instantiate(slotPrefab, slotChild);
-                slot.SetIcon(_configProvider.GetItem(item.id).Icon);
+                var item = array[i];
+                if (slots[i].ItemType != item.type) continue;
+                slots[i].SetIcon(_configProvider.GetItem(item.id).Icon);
             }
 
             ui.SetActive(true);
@@ -33,10 +34,12 @@ namespace _Assets.Scripts.Gameplay
         public void Refresh(Inventory inventory)
         {
             Clear();
-            foreach (var item in inventory.GetItems().ToArray())
+            var array = inventory.GetItems().ToArray();
+            for (var i = 0; i < array.Length; i++)
             {
-                var slot = Instantiate(slotPrefab, slotChild);
-                slot.SetIcon(_configProvider.GetItem(item.id).Icon);
+                var item = array[i];
+                if (slots[i].ItemType != item.type) continue;
+                slots[i].SetIcon(_configProvider.GetItem(item.id).Icon);
             }
         }
 
@@ -48,9 +51,9 @@ namespace _Assets.Scripts.Gameplay
 
         private void Clear()
         {
-            foreach (Transform child in slotChild)
+            foreach (var slot in slots)
             {
-                Destroy(child.gameObject);
+                slot.SetIcon(null);
             }
         }
     }

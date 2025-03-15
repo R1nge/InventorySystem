@@ -27,9 +27,11 @@ namespace _Assets.Scripts.Gameplay
 
             if (Input.GetMouseButtonUp(0))
             {
+                if (_lastInventory == null) return;
                 _lastInventory.OnItemAdded.RemoveListener(Refresh);
                 _lastInventory.OnItemRemoved.RemoveListener(Refresh);
                 inventoryUIView.Hide();
+                _lastInventory = null;
             }
         }
 
