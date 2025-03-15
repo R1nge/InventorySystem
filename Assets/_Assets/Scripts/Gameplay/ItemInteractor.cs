@@ -15,6 +15,7 @@ namespace _Assets.Scripts.Gameplay
             {
                 var ray = camera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out var hit))
+                {
                     if (hit.transform.TryGetComponent(out ItemView itemView))
                     {
                         _currentItem = itemView;
@@ -23,16 +24,19 @@ namespace _Assets.Scripts.Gameplay
                         _startDragOffset.z = 0;
                         itemView.DisableGravity();
                     }
+                }
             }
 
             Drag();
 
             if (Input.GetMouseButtonUp(0))
+            {
                 if (_currentItem != null)
                 {
                     _currentItem.EnableGravity();
                     _currentItem = null;
                 }
+            }
         }
 
         private void Drag()
@@ -40,7 +44,7 @@ namespace _Assets.Scripts.Gameplay
             if (_currentItem != null)
             {
                 var mousePosition = Input.mousePosition;
-                mousePosition.z = camera.transform.position.z;
+                mousePosition.z = camera.transform.position.z + _currentItem.transform.position.z;
                 var mouseWorldPosition = ScreenToWorld(mousePosition);
                 mouseWorldPosition.z = _currentItem.transform.position.z;
 
