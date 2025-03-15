@@ -1,20 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace _Assets.Scripts.Gameplay
 {
     public class InventoryItemPositionView : MonoBehaviour
     {
+        [SerializeField] private float lerpDuration = 0.15f;
         [SerializeField] private Transform position;
         private ItemView _currentItem;
 
         public void Put(ItemView itemView)
         {
+            if (_currentItem != null)
+            {
+                Debug.LogError("Item position is already occupied", this);
+                return;
+            }
+
             _currentItem = itemView;
             itemView.DisableGravity();
             itemView.EnableKinematic();
-            itemView.transform.parent = position;
-            itemView.transform.localPosition = Vector3.zero;
-            itemView.transform.localRotation = Quaternion.identity;
+            StartCoroutine(LerpToPosition(itemView, lerpDuration));
+            itemView.transform.SetParent(position);
         }
 
         public ItemView Take()
@@ -24,7 +31,7 @@ namespace _Assets.Scripts.Gameplay
                 var item = _currentItem;
                 _currentItem.EnableGravity();
                 _currentItem.DisableKinematic();
-                _currentItem.transform.parent = null;
+                _currentItem.transform.SetParent(null);
                 _currentItem = null;
                 return item;
             }
@@ -32,6 +39,21 @@ namespace _Assets.Scripts.Gameplay
             Debug.LogError("Trying to take an item from an empty position", this);
 
             return null;
+        }
+
+        private IEnumerator LerpToPosition(ItemView itemView, float duration)
+        {
+            var startPosition = itemView.transform.position;
+            var endPosition = position.position;
+            var t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                itemView.transform.position = Vector3.Lerp(startPosition, endPosition, t / duration);
+                yield return null;
+            }
+
+            itemView.transform.position = endPosition;
         }
     }
 }
