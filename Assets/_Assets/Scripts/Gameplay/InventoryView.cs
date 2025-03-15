@@ -14,6 +14,7 @@ namespace _Assets.Scripts.Gameplay
         [Inject] private Api _api;
         private Inventory _inventory;
         [Inject] private InventorySaver _inventorySaver;
+        public Inventory Inventory => _inventory;
 
         private void Awake()
         {
