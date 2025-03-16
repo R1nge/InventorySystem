@@ -5,7 +5,7 @@ Spent 6h35m
 Things that could've done if for asked or I had more context:  
 abstract save system with an interface  
 save data migration  
-sync inventory view with the model when save has been  
+sync inventory view with the model when save has been loaded  
 
 The reason behind having a separate collider/object for taking from an inventory is simple, objects can have too small/big colliders, so it may become increasingly difficult to make a collider that works well in the game and in the inventory
 
