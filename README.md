@@ -2,7 +2,7 @@ Spent 6h35m
 
 [itch.io](https://r1nge.itch.io/inventory-system)
 
-Things that could've done if were asked for or I had more context:  
+Things that could've been done if I had more context:  
 abstract save system with an interface  
 save data migration  
 sync inventory view with the model when save has been loaded  
