@@ -7,6 +7,8 @@ abstract save system with an interface
 save data migration  
 sync inventory view with the model when save has been  
 
+The reason behind having a separate collider/object for taking from an inventory is simple, objects can have too small/big colliders, so it may become increasingly difficult to have a collider that works well in the game and in the inventory
+
 https://web.archive.org/web/20250314104906/https://app.milanote.com/1MWWGC18rWSv4B/unity-c-fullstack-developer?p=fxzbocxJp5Z
 
 Unity 2022.3.21f1
